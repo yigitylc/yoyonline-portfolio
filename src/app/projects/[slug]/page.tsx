@@ -8,19 +8,6 @@ export function generateStaticParams() {
   }));
 }
 
-function getRunInstructions(type: string, sourcePath: string): string {
-  switch (type) {
-    case 'notebook':
-      return `jupyter notebook "${sourcePath}"`;
-    case 'streamlit':
-      return `streamlit run ${sourcePath}`;
-    case 'dash':
-      return `# Extract code from notebook and run:\npython app.py`;
-    default:
-      return 'See source file for details.';
-  }
-}
-
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const project = getProjectBySlug(params.slug);
 
@@ -28,19 +15,27 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     notFound();
   }
 
+  const isLive = project.status === 'live';
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <Link
         href="/projects"
         className="text-sm text-blue-600 hover:text-blue-800"
       >
-        &larr; Back to Projects
+        &larr; Back to Projects &amp; Models
       </Link>
 
       <div className="mt-6">
-        <span className="inline-block rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 uppercase">
-          {project.type}
-        </span>
+        {isLive ? (
+          <span className="inline-block rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-800 uppercase">
+            Live
+          </span>
+        ) : (
+          <span className="inline-block rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 uppercase">
+            Coming Soon
+          </span>
+        )}
         <h1 className="mt-2 text-3xl font-bold text-gray-900">
           {project.title}
         </h1>
@@ -62,57 +57,38 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       </div>
 
       <div className="mt-8">
-        <h2 className="text-xl font-semibold text-gray-900">File Info</h2>
-        <div className="mt-2 rounded bg-gray-50 p-4">
-          <p className="text-sm text-gray-600">
-            <span className="font-medium">Source:</span> {project.sourcePath}
-          </p>
-          <p className="mt-1 text-sm text-gray-600">
-            <span className="font-medium">Type:</span> {project.type}
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-8">
         <h2 className="text-xl font-semibold text-gray-900">Live Demo</h2>
-        {project.embedUrl ? (
-          <div className="mt-2">
-            <iframe
-              src={project.embedUrl}
-              className="h-96 w-full rounded border"
-              title={project.title}
-            />
-            {project.demoUrl && (
-              <p className="mt-2 text-sm text-gray-600">
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  Open demo in new tab &rarr;
-                </a>
-              </p>
-            )}
+        {isLive && project.streamlitUrl ? (
+          <div className="mt-4">
+            <div className="rounded-lg overflow-hidden border border-gray-200">
+              <iframe
+                src={`${project.streamlitUrl}/?embed=true`}
+                className="w-full h-[900px] sm:h-[75vh] min-h-[600px]"
+                style={{ border: 'none' }}
+                title={project.title}
+                sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+                allow="clipboard-write; fullscreen"
+              />
+            </div>
+            <div className="mt-4">
+              <a
+                href={project.streamlitUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Open in Streamlit
+              </a>
+            </div>
           </div>
         ) : (
-          <div className="mt-2 flex h-48 items-center justify-center rounded bg-gray-100">
-            <p className="text-gray-500">
-              Demo not deployed yet. Run locally to preview.
+          <div className="mt-4 bg-gray-100 rounded-lg p-8 text-center">
+            <p className="text-gray-600 text-lg font-medium">Coming Soon</p>
+            <p className="text-gray-500 mt-2">
+              This project is being converted to an interactive Streamlit app.
             </p>
           </div>
         )}
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold text-gray-900">
-          How to Run Locally
-        </h2>
-        <div className="mt-2 rounded bg-gray-900 p-4">
-          <pre className="text-sm text-green-400 whitespace-pre-wrap">
-            {getRunInstructions(project.type, project.sourcePath)}
-          </pre>
-        </div>
       </div>
     </div>
   );

@@ -6,12 +6,20 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+  const isLive = project.status === 'live';
+
   return (
     <div className="rounded-lg bg-white p-6 shadow hover:shadow-md transition-shadow">
       <div className="mb-2">
-        <span className="inline-block rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 uppercase">
-          {project.type}
-        </span>
+        {isLive ? (
+          <span className="inline-block rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-800 uppercase">
+            Live
+          </span>
+        ) : (
+          <span className="inline-block rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 uppercase">
+            Coming Soon
+          </span>
+        )}
       </div>
       <h3 className="text-lg font-semibold text-gray-900">{project.title}</h3>
       <p className="mt-2 text-sm text-gray-600">{project.summary}</p>
@@ -25,13 +33,23 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </span>
         ))}
       </div>
-      <div className="mt-4">
+      <div className="mt-4 flex gap-2">
         <Link
           href={`/projects/${project.slug}`}
           className="inline-block rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
         >
           Details
         </Link>
+        {isLive && project.streamlitUrl && (
+          <a
+            href={project.streamlitUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded bg-gray-100 px-4 py-2 text-sm text-gray-700 hover:bg-gray-200"
+          >
+            Open Demo
+          </a>
+        )}
       </div>
     </div>
   );

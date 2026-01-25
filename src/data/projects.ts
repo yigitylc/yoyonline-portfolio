@@ -3,34 +3,19 @@ export interface Project {
   title: string;
   summary: string;
   tags: string[];
-  type: 'notebook' | 'streamlit' | 'dash';
-  sourcePath: string;
-  demoUrl: string;
-  embedUrl: string;
+  status: 'live' | 'coming_soon';
+  streamlitUrl?: string;
 }
 
 export const projects: Project[] = [
   {
-    slug: 'portfolio-analytics-dashboard',
-    title: 'Advanced Portfolio Analytics Dashboard',
+    slug: 'return-observations',
+    title: 'Return Observations Analysis',
     summary:
-      'Interactive Dash app for portfolio performance analysis with Sharpe ratio, Beta, drawdowns, and correlation matrices.',
-    tags: ['Dash', 'Plotly', 'Portfolio Analytics', 'Python'],
-    type: 'dash',
-    sourcePath: 'Advanced Portfolio Analytics Dashboard Fixed.ipynb',
-    demoUrl: '',
-    embedUrl: '',
-  },
-  {
-    slug: 'beta-correlation-quant',
-    title: 'Beta Correlation Quant Dashboard',
-    summary:
-      'Quantitative analysis tool for exploring beta and correlation relationships across assets.',
-    tags: ['Dash', 'Plotly', 'Quant', 'Python'],
-    type: 'dash',
-    sourcePath: 'beta correlation quant dash.ipynb',
-    demoUrl: '',
-    embedUrl: '',
+      'Analyze return distributions, volatility (Rolling/EWMA), z-scores, and consecutive periods without large drops for selected tickers.',
+    tags: ['Streamlit', 'Statistics', 'Volatility', 'Python'],
+    status: 'live',
+    streamlitUrl: 'https://returnobs-yoy.streamlit.app',
   },
   {
     slug: 'try-carry-trade',
@@ -38,54 +23,40 @@ export const projects: Project[] = [
     summary:
       'Premium Streamlit dashboard for Turkish Lira carry trade analysis with Monte Carlo simulations and regime-based modeling.',
     tags: ['Streamlit', 'FX', 'Monte Carlo', 'Python'],
-    type: 'streamlit',
-    sourcePath: 'app_streamlit.py',
-    demoUrl: '',
-    embedUrl: '',
+    status: 'live',
+    streamlitUrl: 'https://try-carry-trade-appgit-yigityalcin.streamlit.app',
   },
   {
-    slug: 'investment-analysis-try',
-    title: 'Investment Analysis: TRY Time Deposits',
+    slug: 'portfolio-analytics-dashboard',
+    title: 'Advanced Portfolio Analytics Dashboard',
     summary:
-      'Analysis of Turkish Lira time deposit investment strategies and returns.',
-    tags: ['Jupyter', 'Finance', 'Analysis', 'Python'],
-    type: 'notebook',
-    sourcePath: 'investment analysis time deposit in TRY.ipynb',
-    demoUrl: '',
-    embedUrl: '',
+      'Interactive dashboard for portfolio performance analysis with Sharpe ratio, Beta, drawdowns, and correlation matrices.',
+    tags: ['Dash', 'Plotly', 'Portfolio Analytics', 'Python'],
+    status: 'coming_soon',
+  },
+  {
+    slug: 'beta-correlation-quant',
+    title: 'Beta Correlation Quant Dashboard',
+    summary:
+      'Quantitative analysis tool for exploring beta and correlation relationships across assets.',
+    tags: ['Dash', 'Plotly', 'Quant', 'Python'],
+    status: 'coming_soon',
   },
   {
     slug: 'macd-breadth-indicator',
     title: 'MACD-V Breadth Indicator',
     summary:
-      'Technical analysis notebook implementing a robust MACD-V breadth indicator using Wilder smoothing.',
-    tags: ['Jupyter', 'Technical Analysis', 'Indicators', 'Python'],
-    type: 'notebook',
-    sourcePath: 'MACD-V BREADTH INDICATOR WILDER, ROBUST.ipynb',
-    demoUrl: '',
-    embedUrl: '',
+      'Technical analysis tool implementing a robust MACD-V breadth indicator using Wilder smoothing.',
+    tags: ['Technical Analysis', 'Indicators', 'Python'],
+    status: 'coming_soon',
   },
   {
     slug: 'macro-economic-modeling',
     title: 'Macro Economic Modeling',
     summary:
-      'Macroeconomic modeling and analysis notebook for understanding economic trends and relationships.',
-    tags: ['Jupyter', 'Macro', 'Economics', 'Python'],
-    type: 'notebook',
-    sourcePath: 'Macro economic modeling.ipynb',
-    demoUrl: '',
-    embedUrl: '',
-  },
-  {
-    slug: 'return-observations',
-    title: 'Return Observations Analysis',
-    summary:
-      'Statistical analysis of asset returns, distributions, and patterns.',
-    tags: ['Jupyter', 'Statistics', 'Returns', 'Python'],
-    type: 'notebook',
-    sourcePath: 'return obs.ipynb',
-    demoUrl: '',
-    embedUrl: '',
+      'Macroeconomic modeling and analysis for understanding economic trends and relationships.',
+    tags: ['Macro', 'Economics', 'Python'],
+    status: 'coming_soon',
   },
 ];
 
