@@ -54,9 +54,10 @@ export const projects: Project[] = [
     slug: 'macro-economic-modeling',
     title: 'Macro Economic Modeling',
     summary:
-      'Macroeconomic modeling and analysis for understanding economic trends and relationships.',
-    tags: ['Macro', 'Economics', 'Python'],
-    status: 'coming_soon',
+      'Dashboard analyzing CPI, PCE, GDP from FRED with inflation momentum, scenario projections, and Growth vs Inflation quadrant analysis.',
+    tags: ['Streamlit', 'Macro', 'FRED', 'Python'],
+    status: 'live',
+    streamlitUrl: 'https://macroeconomicmodelingyoy.streamlit.app',
   },
 ];
 
