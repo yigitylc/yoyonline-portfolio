@@ -1,108 +1,146 @@
 import Link from 'next/link';
 
-const liveProjects = [
+const capabilities = [
   {
-    slug: 'try-carry-trade',
-    title: 'TRY Carry Trade Analysis',
-    description: 'Turkish Lira carry trade analysis with Monte Carlo simulations.',
-    streamlitUrl: 'https://try-carry-trade-appgit-yigityalcin.streamlit.app',
+    title: 'Quantitative Models',
+    description:
+      'Portfolio analytics, risk metrics, and systematic trading strategies built with Python.',
   },
   {
-    slug: 'return-observations',
-    title: 'Return Observations',
-    description: 'Analyze return distributions, volatility, and z-scores.',
-    streamlitUrl: 'https://returnobs-yoy.streamlit.app',
+    title: 'Interactive Dashboards',
+    description:
+      'Live Streamlit and Dash applications for exploring market data, signals, and performance.',
+  },
+  {
+    title: 'Macro Research',
+    description:
+      'Economic indicators, regime analysis, and cross-asset views using FRED and market data.',
   },
 ];
 
-const features = [
-  {
-    title: 'Models',
-    description: 'Quantitative finance models for portfolio analytics, risk, and trading strategies.',
-  },
-  {
-    title: 'Dashboards',
-    description: 'Interactive tools for exploring market data, correlations, and performance metrics.',
-  },
-  {
-    title: 'Research',
-    description: 'Trading ideas, current positions, and macro views. Coming soon.',
-  },
+const researchTopics = [
+  'Macro notes on inflation regimes, yield curves, and central bank policy',
+  'Trade ideas and position rationale with risk/reward analysis',
+  'Model documentation and methodology writeups',
 ];
+
+const topicStrip = ['SPX', 'FX Carry', 'Volatility', 'Macro Regimes', 'Breadth', 'Risk Premia'];
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      {/* Hero */}
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-          YOY Online
-        </h1>
-        <p className="mt-4 text-lg text-gray-600">
-          Finance &amp; Trading dashboards, models, and research.
-        </p>
-        <div className="mt-8">
-          <Link
-            href="/projects"
-            className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
-          >
-            View Projects &amp; Models
-          </Link>
+    <div className="min-h-screen">
+      {/* Hero Section with subtle gradient */}
+      <div className="bg-gradient-to-b from-slate-50 to-white">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+              YOY Online
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
+              Quantitative finance models, interactive dashboards, and macro research.
+              <br className="hidden sm:inline" />
+              Built for analysis. Designed for clarity.
+            </p>
+            <div className="mt-10 flex items-center justify-center gap-4">
+              <Link
+                href="/projects"
+                className="rounded-md bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors"
+              >
+                View Projects
+              </Link>
+              <a
+                href="https://github.com/yigitylc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-colors"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Topic Strip */}
+        <div className="border-y border-slate-200 bg-slate-50/50">
+          <div className="mx-auto max-w-6xl px-4 py-3">
+            <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm font-medium text-slate-500 tracking-wide overflow-x-auto">
+              {topicStrip.map((topic, index) => (
+                <span key={topic} className="flex items-center whitespace-nowrap">
+                  {index > 0 && (
+                    <span className="mr-4 sm:mr-8 text-slate-300" aria-hidden="true">
+                      |
+                    </span>
+                  )}
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Live Demos */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-bold text-gray-900 text-center">Live Demos</h2>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2">
-          {liveProjects.map((project) => (
-            <div
-              key={project.slug}
-              className="rounded-lg bg-white p-6 shadow hover:shadow-md transition-shadow"
-            >
-              <span className="inline-block rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-800 uppercase">
-                Live
-              </span>
-              <h3 className="mt-2 text-lg font-semibold text-gray-900">
-                {project.title}
-              </h3>
-              <p className="mt-2 text-sm text-gray-600">{project.description}</p>
-              <div className="mt-4 flex gap-2">
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="inline-block rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-                >
-                  Details
-                </Link>
-                <a
-                  href={project.streamlitUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block rounded bg-gray-100 px-4 py-2 text-sm text-gray-700 hover:bg-gray-200"
-                >
-                  Open Demo
-                </a>
+      {/* Main Content */}
+      <div className="mx-auto max-w-6xl px-4 py-16">
+        {/* Capabilities Section */}
+        <section>
+          <h2 className="text-center text-2xl font-bold text-slate-900 sm:text-3xl">
+            What You Will Find
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-slate-600">
+            A collection of quantitative tools and research covering markets, macro, and systematic strategies.
+          </p>
+          <div className="mt-12 grid gap-8 sm:grid-cols-3">
+            {capabilities.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Research & Writing Section */}
+        <section className="mt-20">
+          <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-8 sm:p-10">
+            <div className="flex items-start gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-3">
+                  <h2 className="text-2xl font-bold text-slate-900">Research and Writing</h2>
+                  <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
+                    Coming Soon
+                  </span>
+                </div>
+                <p className="mt-4 text-slate-600">
+                  Longer-form content on markets, models, and methodology. What to expect:
+                </p>
+                <ul className="mt-6 space-y-3">
+                  {researchTopics.map((topic) => (
+                    <li key={topic} className="flex items-start gap-3 text-sm text-slate-700">
+                      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-slate-400" />
+                      {topic}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </section>
 
-      {/* What You'll Find */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-bold text-gray-900 text-center">
-          What You&apos;ll Find Here
-        </h2>
-        <div className="mt-8 grid gap-6 sm:grid-cols-3">
-          {features.map((feature) => (
-            <div key={feature.title} className="rounded-lg bg-white p-6 shadow">
-              <h3 className="text-lg font-semibold text-gray-900">
-                {feature.title}
-              </h3>
-              <p className="mt-2 text-sm text-gray-600">{feature.description}</p>
-            </div>
-          ))}
-        </div>
+        {/* CTA */}
+        <section className="mt-20 text-center">
+          <p className="text-slate-600">
+            Explore the projects to see live dashboards and detailed documentation.
+          </p>
+          <Link
+            href="/projects"
+            className="mt-6 inline-block rounded-md bg-slate-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors"
+          >
+            Browse All Projects
+          </Link>
+        </section>
       </div>
     </div>
   );
