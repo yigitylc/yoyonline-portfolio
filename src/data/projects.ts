@@ -44,11 +44,12 @@ export const projects: Project[] = [
   },
   {
     slug: 'macd-breadth-indicator',
-    title: 'MACD-V Breadth Indicator',
+    title: 'MACD-V Breadth Indicator (Volatility-Normalized Momentum)',
     summary:
-      'Technical analysis tool implementing a robust MACD-V breadth indicator using Wilder smoothing.',
-    tags: ['Technical Analysis', 'Indicators', 'Python'],
-    status: 'coming_soon',
+      'Market breadth dashboard analyzing S&P 500 constituents using volatility-normalized MACD-V with Wilder ATR smoothing. Visualizes momentum regimes, bull/bear ratios, and histogram breadth. Reference: Spiroglou, "MACD-V: Volatility Normalised Momentum" (SSRN 4099617).',
+    tags: ['Streamlit', 'Technical Analysis', 'Breadth', 'Momentum', 'Python'],
+    status: 'live',
+    streamlitUrl: 'https://macd-v-breadthwild.streamlit.app',
   },
   {
     slug: 'macro-economic-modeling',
