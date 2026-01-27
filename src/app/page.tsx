@@ -9,7 +9,7 @@ const capabilities = [
   {
     title: 'Interactive Dashboards',
     description:
-      'Live Streamlit and Dash applications for exploring market data, signals, and performance.',
+      'Live Streamlit applications for exploring market data, signals, and performance.',
   },
   {
     title: 'Macro Research',
@@ -41,21 +41,13 @@ export default function Home() {
               <br className="hidden sm:inline" />
               Built for analysis. Designed for clarity.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-4">
+            <div className="mt-10">
               <Link
                 href="/projects"
                 className="rounded-md bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors"
               >
                 View Projects
               </Link>
-              <a
-                href="https://github.com/yigitylc"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-md border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-colors"
-              >
-                GitHub
-              </a>
             </div>
           </div>
         </div>
