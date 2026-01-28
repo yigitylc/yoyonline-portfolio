@@ -36,11 +36,12 @@ export const projects: Project[] = [
   },
   {
     slug: 'beta-correlation-quant',
-    title: 'Beta Correlation Quant Dashboard',
+    title: 'Beta & Correlation Analytics',
     summary:
-      'Quantitative analysis tool for exploring beta and correlation relationships across assets.',
-    tags: ['Dash', 'Plotly', 'Quant', 'Python'],
-    status: 'coming_soon',
+      'Interactive analytics across a large asset universe to compare beta, correlations, Sharpe, and relative performance versus a benchmark. Includes ranking tables and visual diagnostics built for scale.',
+    tags: ['Streamlit', 'Beta', 'Correlation', 'Sharpe', 'Risk', 'Python'],
+    status: 'live',
+    streamlitUrl: 'https://asset-analyticsyoy.streamlit.app',
   },
   {
     slug: 'macd-breadth-indicator',
