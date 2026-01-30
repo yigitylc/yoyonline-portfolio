@@ -28,11 +28,12 @@ export const projects: Project[] = [
   },
   {
     slug: 'portfolio-analytics-dashboard',
-    title: 'Advanced Portfolio Analytics Dashboard',
+    title: 'Portfolio Analytics',
     summary:
-      'Interactive dashboard for portfolio performance analysis with Sharpe ratio, Beta, drawdowns, and correlation matrices.',
-    tags: ['Dash', 'Plotly', 'Portfolio Analytics', 'Python'],
-    status: 'coming_soon',
+      'Two-portfolio comparison tool covering cumulative returns, drawdowns, Sharpe, Sortino, Beta, correlation matrices, and rolling risk metrics across a broad S&P 500 + Nasdaq-100 + ETF universe.',
+    tags: ['Streamlit', 'Portfolio Analytics', 'Risk Metrics', 'Python'],
+    status: 'live',
+    streamlitUrl: 'https://portfolio-analyticsyoy.streamlit.app',
   },
   {
     slug: 'beta-correlation-quant',
