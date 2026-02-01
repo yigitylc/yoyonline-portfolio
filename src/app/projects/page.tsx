@@ -3,9 +3,10 @@ import ProjectCard from '@/components/ProjectCard';
 
 export default function ProjectsPage() {
   const sortedProjects = [...projects].sort((a, b) => {
-    if (a.status === 'live' && b.status !== 'live') return -1;
-    if (a.status !== 'live' && b.status === 'live') return 1;
-    return 0;
+    const oa = a.order ?? 999;
+    const ob = b.order ?? 999;
+    if (oa !== ob) return oa - ob;
+    return a.title.localeCompare(b.title);
   });
 
   return (
