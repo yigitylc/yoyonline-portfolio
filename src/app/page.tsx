@@ -1,139 +1,185 @@
 import Link from 'next/link';
+import ProjectCard from '@/components/ProjectCard';
+import { projects } from '@/data/projects';
 
 const capabilities = [
   {
+    tag: 'Models',
     title: 'Quantitative Models',
-    description:
-      'Portfolio analytics, risk metrics, and systematic trading strategies built with Python.',
+    body: 'Portfolio analytics, risk metrics, and systematic trading strategies built with Python.',
+    stat: { v: '7', l: 'live dashboards' },
   },
   {
+    tag: 'Tools',
     title: 'Interactive Dashboards',
-    description:
-      'Live Streamlit applications for exploring market data, signals, and performance.',
+    body: 'Live Streamlit applications for exploring market data, signals, and performance.',
+    stat: { v: 'Python', l: 'Streamlit stack' },
   },
   {
+    tag: 'Research',
     title: 'Macro Research',
-    description:
-      'Economic indicators, regime analysis, and cross-asset views using FRED and market data.',
+    body: 'Economic indicators, regime analysis, and cross-asset views using FRED and market data.',
+    stat: { v: '40Y', l: 'history depth' },
   },
 ];
 
-const researchTopics = [
-  'Macro notes on inflation regimes, yield curves, and central bank policy',
-  'Trade ideas and position rationale with risk/reward analysis',
-  'Model documentation and methodology writeups',
-];
-
-const topicStrip = ['SPX', 'FX Carry', 'Volatility', 'Macro Regimes', 'Breadth', 'Risk Premia'];
+function HeroChart() {
+  const points =
+    '0,180 60,176 120,168 180,172 240,158 300,162 360,140 420,144 480,124 540,128 600,108 660,114 720,92 780,96 840,72 900,76 960,58 1020,62 1080,40 1140,46 1180,28';
+  const area =
+    'M0,180 L60,176 L120,168 L180,172 L240,158 L300,162 L360,140 L420,144 L480,124 L540,128 L600,108 L660,114 L720,92 L780,96 L840,72 L900,76 L960,58 L1020,62 L1080,40 L1140,46 L1180,28 L1180,210 L0,210 Z';
+  return (
+    <svg
+      className="hero-chart"
+      viewBox="0 0 1180 210"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="hero-g" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#137A3F" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#137A3F" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <g className="hero-grid">
+        {[40, 80, 120, 160].map((y) => (
+          <line key={y} x1="0" y1={y} x2="1180" y2={y} />
+        ))}
+      </g>
+      <path d={area} fill="url(#hero-g)" className="hero-area" />
+      <polyline
+        points={points}
+        fill="none"
+        stroke="#137A3F"
+        strokeWidth="1.6"
+        className="hero-line"
+      />
+    </svg>
+  );
+}
 
 export default function Home() {
+  const sorted = [...projects].sort(
+    (a, b) => (a.order ?? 999) - (b.order ?? 999)
+  );
+  const featured = sorted.slice(0, 3);
+  const totalLive = projects.filter((p) => p.status === 'live').length;
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section with subtle gradient */}
-      <div className="bg-gradient-to-b from-slate-50 to-white">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              YOY Online
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-              Quantitative finance models, interactive dashboards, and macro research.
-              <br className="hidden sm:inline" />
-              Built for analysis. Designed for clarity.
-            </p>
-            <div className="mt-10">
-              <Link
-                href="/projects"
-                className="rounded-md bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors"
-              >
-                View Projects
-              </Link>
-            </div>
+    <div className="home">
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-bg">
+          <HeroChart />
+        </div>
+        <div className="container hero-inner">
+          <div className="eyebrow hero-eyebrow">
+            <span className="hero-dot" /> § YOY · ONLINE
+          </div>
+          <h1 className="hero-title">
+            Financial tools
+            <br />
+            <em>for markets.</em>
+          </h1>
+          <p className="hero-lead">
+            Quantitative finance models, interactive dashboards, and macro
+            research.
+            <br />
+            Built for analysis.
+          </p>
+          <div className="hero-cta">
+            <Link href="/projects" className="btn btn-primary">
+              View all projects <span className="arr">→</span>
+            </Link>
+            <a href="#capabilities" className="btn btn-ghost">
+              Read methodology
+            </a>
           </div>
         </div>
+      </section>
 
-        {/* Topic Strip */}
-        <div className="border-y border-slate-200 bg-slate-50/50">
-          <div className="mx-auto max-w-6xl px-4 py-3">
-            <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm font-medium text-slate-500 tracking-wide overflow-x-auto">
-              {topicStrip.map((topic, index) => (
-                <span key={topic} className="flex items-center whitespace-nowrap">
-                  {index > 0 && (
-                    <span className="mr-4 sm:mr-8 text-slate-300" aria-hidden="true">
-                      |
-                    </span>
-                  )}
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </div>
+      {/* WHAT YOU WILL FIND */}
+      <section id="capabilities" className="container section">
+        <div className="section-head">
+          <div className="eyebrow">§ 01 · Capabilities</div>
+          <h2 className="section-title">What you will find here</h2>
+          <p className="section-lead">
+            A collection of quantitative tools and research covering markets,
+            macro, and systematic strategies. Every model ships with
+            documentation and a live interactive dashboard.
+          </p>
         </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="mx-auto max-w-6xl px-4 py-16">
-        {/* Capabilities Section */}
-        <section>
-          <h2 className="text-center text-2xl font-bold text-slate-900 sm:text-3xl">
-            What You Will Find
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-slate-600">
-            A collection of quantitative tools and research covering markets, macro, and systematic strategies.
-          </p>
-          <div className="mt-12 grid gap-8 sm:grid-cols-3">
-            {capabilities.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Research & Writing Section */}
-        <section className="mt-20">
-          <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-8 sm:p-10">
-            <div className="flex items-start gap-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-2xl font-bold text-slate-900">Research and Writing</h2>
-                  <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
-                    Coming Soon
-                  </span>
-                </div>
-                <p className="mt-4 text-slate-600">
-                  Longer-form content on markets, models, and methodology. What to expect:
-                </p>
-                <ul className="mt-6 space-y-3">
-                  {researchTopics.map((topic) => (
-                    <li key={topic} className="flex items-start gap-3 text-sm text-slate-700">
-                      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-slate-400" />
-                      {topic}
-                    </li>
-                  ))}
-                </ul>
+        <div className="cap-grid">
+          {capabilities.map((c) => (
+            <div className="cap-card" key={c.title}>
+              <div className="cap-tag">{c.tag}</div>
+              <h3 className="cap-title">{c.title}</h3>
+              <p className="cap-body">{c.body}</p>
+              <div className="cap-stat">
+                <span className="num">{c.stat.v}</span>
+                <span className="cap-stat-l">{c.stat.l}</span>
               </div>
             </div>
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        {/* CTA */}
-        <section className="mt-20 text-center">
-          <p className="text-slate-600">
-            Explore the projects to see live dashboards and detailed documentation.
-          </p>
-          <Link
-            href="/projects"
-            className="mt-6 inline-block rounded-md bg-slate-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors"
-          >
-            Browse All Projects
+      {/* FEATURED MODELS */}
+      <section className="container section">
+        <div className="section-head row-head">
+          <div>
+            <div className="eyebrow">§ 02 · Featured</div>
+            <h2 className="section-title">Latest models</h2>
+          </div>
+          <Link className="see-all" href="/projects">
+            See all {totalLive} models →
           </Link>
-        </section>
-      </div>
+        </div>
+        <div className="proj-grid">
+          {featured.map((p) => (
+            <ProjectCard key={p.slug} project={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* RESEARCH */}
+      <section className="container section">
+        <div className="section-head">
+          <div className="eyebrow">§ 03 · Research and writing</div>
+          <h2 className="section-title">
+            Notes from the desk <span className="soon">Coming Soon</span>
+          </h2>
+          <p className="section-lead">
+            Longer-form content on markets, models, and methodology. What to
+            expect:
+          </p>
+          <ul className="research-list">
+            <li>
+              <span className="bullet">▸</span> Macro notes on inflation
+              regimes, yield curves, and central bank policy
+            </li>
+            <li>
+              <span className="bullet">▸</span> Trade ideas and position
+              rationale with risk/reward analysis
+            </li>
+            <li>
+              <span className="bullet">▸</span> Model documentation and
+              methodology writeups
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="container section cta-section">
+        <p className="cta-body">
+          Explore the projects to see live dashboards and detailed
+          documentation.
+        </p>
+        <Link href="/projects" className="btn btn-primary btn-lg">
+          Browse all projects <span className="arr">→</span>
+        </Link>
+      </section>
     </div>
   );
 }

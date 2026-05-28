@@ -3,54 +3,46 @@ import { Project } from '@/data/projects';
 
 interface ProjectCardProps {
   project: Project;
+  index?: number;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+function hostFromUrl(url?: string): string {
+  if (!url) return '';
+  try {
+    return new URL(url).hostname.replace('.streamlit.app', '');
+  } catch {
+    return '';
+  }
+}
+
+export default function ProjectCard({ project, index }: ProjectCardProps) {
   const isLive = project.status === 'live';
+  const num = String(index ?? project.order ?? 99).padStart(2, '0');
+  const host = hostFromUrl(project.streamlitUrl);
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow hover:shadow-md transition-shadow">
-      <div className="mb-2">
-        {isLive ? (
-          <span className="inline-block rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-800 uppercase">
-            Live
-          </span>
-        ) : (
-          <span className="inline-block rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 uppercase">
-            Coming Soon
-          </span>
-        )}
+    <Link href={`/projects/${project.slug}`} className="proj-card">
+      <div className="proj-card-top">
+        <span className={`status ${isLive ? 'st-live' : 'st-soon'}`}>
+          {isLive ? 'Live' : 'Coming Soon'}
+        </span>
+        <span className="proj-num">/ MODEL {num}</span>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900">{project.title}</h3>
-      <p className="mt-2 text-sm text-gray-600">{project.summary}</p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-700"
-          >
-            {tag}
+      <h3 className="proj-title">{project.title}</h3>
+      <p className="proj-short">{project.summary}</p>
+      <div className="proj-tags">
+        {project.tags.slice(0, 4).map((t) => (
+          <span className="tag" key={t}>
+            {t}
           </span>
         ))}
       </div>
-      <div className="mt-4 flex gap-2">
-        <Link
-          href={`/projects/${project.slug}`}
-          className="inline-block rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-        >
-          Details
-        </Link>
-        {isLive && project.streamlitUrl && (
-          <a
-            href={project.streamlitUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block rounded bg-gray-100 px-4 py-2 text-sm text-gray-700 hover:bg-gray-200"
-          >
-            Open Demo
-          </a>
-        )}
+      <div className="proj-foot">
+        <span className="proj-link">
+          Open dashboard <span className="arr">→</span>
+        </span>
+        <span className="proj-host">{host}</span>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,16 +1,32 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Instrument_Serif, Newsreader } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
 import './globals.css';
 
-export const metadata: Metadata = {
-  title: 'YOY Online',
-  description: 'Finance and trading dashboards, models, and research by Yigit Osman Yalcin',
-};
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
 
-const socials = {
-  x: '',
-  linkedin: '',
-  github: '',
+const newsreader = Newsreader({
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  variable: '--font-editorial',
+  display: 'swap',
+  adjustFontFallback: false,
+});
+
+export const metadata: Metadata = {
+  title: 'YOY Online — Markets, modelled.',
+  description:
+    'Quantitative finance models, interactive dashboards, and macro research by Yigit Osman Yalcin. Built for analysis.',
 };
 
 export default function RootLayout({
@@ -18,64 +34,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const fontVars = `${instrumentSerif.variable} ${newsreader.variable} ${GeistSans.variable} ${GeistMono.variable}`;
+
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-gray-50 flex flex-col">
-        <nav className="bg-white shadow-sm">
-          <div className="mx-auto max-w-6xl px-4 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/" className="text-xl font-semibold text-gray-900">
-                YOY Online
-              </Link>
-              <Link
-                href="/projects"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                Projects &amp; Models
-              </Link>
-            </div>
-          </div>
-        </nav>
-        <main className="flex-1">{children}</main>
-        <footer className="bg-white border-t mt-auto">
-          <div className="mx-auto max-w-6xl px-4 py-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              <p className="text-sm text-gray-500">&copy; YOY Online</p>
-              <div className="flex gap-4">
-                {socials.x && (
-                  <a
-                    href={socials.x}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-500 hover:text-gray-700"
-                  >
-                    X
-                  </a>
-                )}
-                {socials.linkedin && (
-                  <a
-                    href={socials.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-500 hover:text-gray-700"
-                  >
-                    LinkedIn
-                  </a>
-                )}
-                {socials.github && (
-                  <a
-                    href={socials.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-500 hover:text-gray-700"
-                  >
-                    GitHub
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </footer>
+    <html lang="en" className={fontVars}>
+      <body>
+        <SiteHeader />
+        <main>{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
