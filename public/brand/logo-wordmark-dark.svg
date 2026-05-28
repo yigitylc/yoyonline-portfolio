@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <defs>
+    
+  </defs>
+  <text x="0" y="56" class="word">YOY</text>
+  <circle cx="118" cy="48" r="3.5" class="dot"></circle>
+  <text x="128" y="56" class="word" style="font-style: italic; fill: #98A2AF;">online</text>
+  <text x="0" y="72" class="tld">CAPITAL · MARKETS · MODELS</text>
+</svg>
