@@ -3,3 +3,8 @@
 out/
 *.log
 .env*
+
+# Streamlit wake-up debug artifacts
+wake-debug/
+playwright-report/
+test-results/

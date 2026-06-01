@@ -1,0 +1,41 @@
+name: Wake Streamlit Apps
+
+# Periodically visits the embedded Streamlit dashboards so visitors on
+# yoyonline.com are less likely to hit the "app has gone to sleep" screen.
+# Best-effort only — see docs/streamlit-wake.md.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every 6 hours, on an odd minute to avoid the top-of-hour scheduler crush.
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wake-streamlit
+  cancel-in-progress: false
+
+jobs:
+  wake:
+    name: Wake Streamlit apps
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Playwright
+        run: npm install --no-save playwright
+
+      - name: Install Chromium with dependencies
+        run: npx playwright install --with-deps chromium
+
+      - name: Wake Streamlit apps
+        run: node scripts/wake-streamlit.mjs
