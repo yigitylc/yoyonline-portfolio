@@ -7,29 +7,32 @@ name: Wake Streamlit Apps
 on:
   workflow_dispatch:
   schedule:
-    # Every 6 hours, on an odd minute to avoid the top-of-hour scheduler crush.
-    - cron: "17 */6 * * *"
+    # Every 3 hours, on an odd minute to avoid the top-of-hour scheduler crush.
+    # Streamlit sleeps apps after 12h without traffic and GitHub often starts
+    # scheduled runs hours late (or drops them), so 6h left no safety margin.
+    - cron: "17 */3 * * *"
 
 permissions:
   contents: read
 
-concurrency:
-  group: wake-streamlit
-  cancel-in-progress: false
+# Deliberately no `concurrency` group: if GitHub orphans a queued run
+# ("Waiting for a runner to pick up this job..."), a lock holds back every
+# later run until someone cancels it. Waking is idempotent, so overlap is fine.
 
 jobs:
   wake:
     name: Wake Streamlit apps
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # Worst case (every app asleep, handled one at a time) is ~30 minutes.
+    timeout-minutes: 45
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Node 20
-        uses: actions/setup-node@v4
+      - name: Setup Node 24
+        uses: actions/setup-node@v7
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Install Playwright
         run: npm install --no-save playwright

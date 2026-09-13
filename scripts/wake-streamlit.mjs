@@ -36,6 +36,7 @@ const WAKE_WAIT_MS = 90_000; // max wait for the app to start after clicking wak
 const WAKE_MIN_WAIT_MS = 45_000; // give a freshly-woken app at least this long
 const SLEEP_TEXT = [/this app has gone to sleep/i, /zzzz/i];
 const WAKE_BUTTON_RE = /get this app back up/i;
+const WAKE_BUTTON_TEST_ID = "wakeup-button-viewer"; // Streamlit's data-testid on the wake button
 const DEBUG_DIR = "wake-debug";
 
 // --- Helpers ---------------------------------------------------------------
@@ -61,8 +62,13 @@ async function hasSleepText(page) {
 
 /** Locate the "Yes, get this app back up!" button, if present. */
 function wakeButton(page) {
-  // Prefer accessible role matching; fall back to any element with the text.
-  return page.getByRole("button", { name: WAKE_BUTTON_RE });
+  // Match either Streamlit's test id or the button's accessible name, so one of
+  // them changing doesn't silently turn a sleeping app into "already awake".
+  // `.first()` because both usually match the same element.
+  return page
+    .getByTestId(WAKE_BUTTON_TEST_ID)
+    .or(page.getByRole("button", { name: WAKE_BUTTON_RE }))
+    .first();
 }
 
 async function screenshotOnFailure(page, name) {
