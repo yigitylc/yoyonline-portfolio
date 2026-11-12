@@ -63,11 +63,13 @@ directory (and Playwright report/test-results artifacts) is gitignored and is
 - **The schedule stopped entirely:** GitHub disables scheduled workflows in
   public repos after **60 days without repository activity** (this happened
   2026-07-31 and again 2026-11-12, exactly 60 days after the previous push).
-  GitHub emails the repo owner when it does. **Re-enable it by hand** via
-  Actions → *Wake Streamlit Apps* → **Enable workflow** — a push resets the
-  60-day clock but does *not* re-enable an already-disabled workflow. Don't
-  automate this with dummy commits or re-enable scripts — the popular keep-alive
-  action for that was disabled by GitHub for a terms-of-service violation.
+  GitHub emails the repo owner when it does. **Any real push re-enables it:** on
+  2026-11-12 a commit to `main` flipped the workflow from `disabled_inactivity`
+  back to `active` within seconds and reset the 60-day clock. When there is no
+  genuine change to push, re-enable it by hand instead via Actions →
+  *Wake Streamlit Apps* → **Enable workflow**. Don't automate this with dummy
+  commits or re-enable scripts — the popular keep-alive action for that was
+  disabled by GitHub for a terms-of-service violation.
 - **Apps asleep even though runs are green:** GitHub starts scheduled runs late
   and **drops many of them outright**. Measured over the 60 days to 2026-11-12,
   an every-3h cron produced only **227 of ~479 runs (47%)**, about 3.8 per day,
