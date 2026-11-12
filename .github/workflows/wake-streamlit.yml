@@ -7,10 +7,13 @@ name: Wake Streamlit Apps
 on:
   workflow_dispatch:
   schedule:
-    # Every 3 hours, on an odd minute to avoid the top-of-hour scheduler crush.
-    # Streamlit sleeps apps after 12h without traffic and GitHub often starts
-    # scheduled runs hours late (or drops them), so 6h left no safety margin.
-    - cron: "17 */3 * * *"
+    # Hourly, on an odd minute to avoid the top-of-hour scheduler crush.
+    # Streamlit sleeps apps after 12h without traffic, and GitHub silently skips
+    # a lot of scheduled slots: at every-3h it ran only 227 of ~479 slots (47%)
+    # over 60 days, leaving a 13.3h gap on 2026-11-09 that let the apps sleep.
+    # Hourly absorbs the dropped slots; a run costs ~2 min and public repos are
+    # not billed for Actions minutes.
+    - cron: "17 * * * *"
 
 permissions:
   contents: read

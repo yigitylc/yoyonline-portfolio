@@ -16,8 +16,9 @@ are intentionally left untouched.
 ## How it works
 
 - **Workflow:** [`.github/workflows/wake-streamlit.yml`](../.github/workflows/wake-streamlit.yml)
-  - Runs on a schedule (**every 3 hours**, cron `17 */3 * * *`) and supports
-    manual runs via `workflow_dispatch`.
+  - Runs on a schedule (**hourly**, cron `17 * * * *`) and supports manual runs
+    via `workflow_dispatch`. Hourly is deliberate over-scheduling — GitHub skips
+    roughly half of all scheduled slots (see Troubleshooting).
   - Spins up Node 24 + Playwright (Chromium) on `ubuntu-latest` and runs the
     wake script.
   - Has **no `concurrency` group** on purpose (see Troubleshooting).
@@ -61,14 +62,24 @@ directory (and Playwright report/test-results artifacts) is gitignored and is
   blocked every later run (September 2026). Overlapping wake runs are harmless.
 - **The schedule stopped entirely:** GitHub disables scheduled workflows in
   public repos after **60 days without repository activity** (this happened
-  2026-07-31). Re-enable it via Actions → *Wake Streamlit Apps* →
-  **Enable workflow**; any push also resets the clock. Don't automate this with
-  dummy commits or re-enable scripts — the popular keep-alive action for that was
-  disabled by GitHub for a terms-of-service violation.
-- **Apps asleep even though runs are green:** scheduled runs often start hours
-  late (2.6 h on average, up to ~6 h, with occasional dropped slots) while
-  Streamlit sleeps apps after **12 hours** without traffic. That's why the
-  schedule is every 3 hours rather than every 6.
+  2026-07-31 and again 2026-11-12, exactly 60 days after the previous push).
+  GitHub emails the repo owner when it does. **Re-enable it by hand** via
+  Actions → *Wake Streamlit Apps* → **Enable workflow** — a push resets the
+  60-day clock but does *not* re-enable an already-disabled workflow. Don't
+  automate this with dummy commits or re-enable scripts — the popular keep-alive
+  action for that was disabled by GitHub for a terms-of-service violation.
+- **Apps asleep even though runs are green:** GitHub starts scheduled runs late
+  and **drops many of them outright**. Measured over the 60 days to 2026-11-12,
+  an every-3h cron produced only **227 of ~479 runs (47%)**, about 3.8 per day,
+  with a 13.3 h gap on 2026-11-09 — past Streamlit's **12 hour** sleep threshold.
+  The schedule is hourly to absorb those misses, not because apps need waking
+  every hour.
+- **Checking whether an app is asleep without a browser:**
+  `curl -s https://<app>.streamlit.app/api/v2/app/status` returns JSON including
+  a `status` field (`5` = running). Useful for monitoring; it is undocumented,
+  and it does **not** wake an app or count as traffic — Streamlit counts the
+  websocket session a real browser opens, which is why this repo drives
+  Playwright rather than sending plain HTTP requests.
 
 ## Limitations
 
